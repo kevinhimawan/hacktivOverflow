@@ -8,7 +8,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     loginstatus: false,
-    allpost: []
+    allpost: [],
+    userdata: {},
+    specificpost: {}
   },
   mutations: {
     changeloginstatus (state, payload) {
@@ -16,6 +18,14 @@ const store = new Vuex.Store({
     },
     changepost (state, payload) {
       state.allpost = payload
+      console.log(payload)
+    },
+    changeuserdata (state, payload) {
+      state.userdata = payload
+      console.log(payload)
+    },
+    changespecificpost (state, payload) {
+      state.specificpost = payload
       console.log(payload)
     }
   },
@@ -45,6 +55,18 @@ const store = new Vuex.Store({
         console.log(err)
       })
     },
+    getuserdata (state,payload) {
+      axios.get('http://localhost:3000/userdata',{
+        headers: {
+          token: payload
+        }
+      }).then(response => {
+        state.commit('changeuserdata', response.data)
+      })
+      .catch(err => {
+        state.commit('changeloginstatus', false)
+      })
+    },
     createpost (state, payload) {
       let form = {
         question: payload.question,
@@ -54,6 +76,28 @@ const store = new Vuex.Store({
       axios.post('http://localhost:3000/createpost', form).then(response => {
         state.commit('changepost', response.data)
       })
+    },
+    votingsystem (state, payload) {
+      axios.post('http://localhost:3000/votingsystem',payload).then(response => {
+        console.log(response.data)
+        if (response.data.message) {
+          swal({
+            title: 'Hey udah pernah nge-vote situ',
+            icon: 'warning',
+            button: 'chill?'
+          })
+        } else {
+          state.commit('changepost',response.data)
+        }
+      })
+    },
+    getspecificpost (state, payload) {
+      axios.get('http://localhost:3000/' + payload.postid).then(response => {
+        state.commit('changespecificpost', response.data)
+      })
+    },
+    discussionsubmitit (state, payload) {
+      axios.post('http://localhost:3000')
     }
   }
 })

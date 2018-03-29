@@ -5,7 +5,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li v-if="loginstatus" class="nav-item active">
-            <a v-on:click="signoutbutton">Signout</a>
+            <a class="signout" v-on:click="signoutbutton">Signout</a>
           </li>
           <li v-else class="nav-item active">
             <div class="form-row">
@@ -110,5 +110,8 @@ export default {
   margin-left: 10px !important;
   margin-top: 0px !important;
   padding: 0 8px !important;
+}
+.signout:hover {
+  cursor: pointer;
 }
 </style>

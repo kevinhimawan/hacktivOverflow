@@ -6,7 +6,8 @@
     </div>
     <div class="col-lg-6" style="text-align:left;padding-left:50px;">
       <div v-if="loginstatus" class="greeting">
-        <h1>hello</h1>
+        <h4>Welcome {{userdata.username}}</h4>
+        <p>Selamat menikmati pengalaman bertanya, menjawab dan membagikan postingan di askdong.</p>
       </div>
       <form v-else>
         <div class="form-group">
@@ -40,9 +41,15 @@ export default {
       }
     }
   },
+  created () {
+    const token = localStorage.getItem('token')
+    if (token) {
+      this.getuserdata(token)
+    } 
+  },
   methods: {
     ...mapActions([
-      'signup'
+      'signup', 'getuserdata'
     ]),
     signupbutton () {
       let error = 0
@@ -68,7 +75,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'loginstatus'
+      'loginstatus', 'userdata'
     ])
   }
 }

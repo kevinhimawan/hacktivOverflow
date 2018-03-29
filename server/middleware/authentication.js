@@ -16,7 +16,6 @@ module.exports = {
   },
   authPost (req, res, next) {
     const token = req.body.token
-    console.log(token)
     if (token) {
       try {
         const decoded = jwt.verify(token, 'secret_key');
@@ -26,7 +25,7 @@ module.exports = {
       }
     } else {
       next (`Cannot come to this site`)
-    } 
+    }
   },
   expired (req, res, next) {
     const token = req.headers.token
